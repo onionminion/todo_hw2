@@ -29,10 +29,26 @@ class App extends Component {
     console.log("currentScreen: " + this.state.currentScreen);
   }
 
+  addList = () => {
+    const newList = {
+      key: '4',
+      name: 'Unknown',
+      owner: 'Unknown',
+      items: []
+    };
+    this.setState({ todoLists: [...this.state.todoLists, newList] });
+    this.setState({currentScreen: AppScreen.LIST_SCREEN});
+    this.setState({currentList: newList});
+    console.log("currentList: " + this.state.currentList);
+    console.log("currentScreen: " + this.state.currentScreen);
+  
+  }
+
   render() {
     switch(this.state.currentScreen) {
       case AppScreen.HOME_SCREEN:
         return <HomeScreen 
+        addList={this.addList.bind(this)}
         loadList={this.loadList.bind(this)} 
         todoLists={this.state.todoLists} />;
       case AppScreen.LIST_SCREEN:            

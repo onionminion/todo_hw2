@@ -65,7 +65,6 @@ body {
 #list_details_owner_container {}
 #list_owner_prompt {}
 #list_owner_textfield {}
-#list_items_container {}
 
 /* LIST SCREEN CLASSES */
 .list_item_card, .list_item_add_card, .list_item_header_card {
@@ -118,6 +117,12 @@ body {
   text-align: center;
   vertical-align: center;
 }
+.list_item_up_img, .list_item_down_img, .list_item_delete_img {
+  float: right;
+  border-radius: 5px;
+  margin-right: 0.2%;
+}
+
 
 /* ITEM SCREEN CONTROLS */
 #item_heading {}
