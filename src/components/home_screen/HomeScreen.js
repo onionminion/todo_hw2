@@ -5,9 +5,6 @@ import TodoListLinks from './TodoListLinks'
 import PropTypes from 'prop-types';
 
 export class HomeScreen extends Component {
-    createList() {
-        this.props.addList();
-    }
     render() {
         return (
             <div id="todo_home">
@@ -18,7 +15,7 @@ export class HomeScreen extends Component {
                 <Banner />
                 <div id="home_new_list_container">
                     <button id="home_new_list_button"
-                        onClick={this.createList.bind(this)}
+                        onClick={this.props.addList.bind(this)}
                     >   Create a New To Do List
                     </button>
                 </div>
@@ -29,7 +26,6 @@ export class HomeScreen extends Component {
 }
 
 HomeScreen.propTypes = {
-    addList: PropTypes.func.isRequired,
     loadList: PropTypes.func.isRequired,
     todoLists: PropTypes.array.isRequired
 }

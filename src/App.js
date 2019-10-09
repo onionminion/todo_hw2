@@ -30,8 +30,9 @@ class App extends Component {
   }
 
   addList = () => {
+    let index = '' + this.state.todoLists.length;
     const newList = {
-      key: '4',
+      key: index,
       name: 'Unknown',
       owner: 'Unknown',
       items: []
@@ -41,7 +42,13 @@ class App extends Component {
     this.setState({currentList: newList});
     console.log("currentList: " + this.state.currentList);
     console.log("currentScreen: " + this.state.currentScreen);
-  
+  }
+
+  removeList = (listToDelete) => {
+    this.setState({ todoLists: [...this.state.todoLists.filter(list => list !== listToDelete)] });
+    this.setState({currentScreen: AppScreen.HOME_SCREEN});
+    this.setState({currentList: null});
+    
   }
 
   render() {
@@ -53,6 +60,7 @@ class App extends Component {
         todoLists={this.state.todoLists} />;
       case AppScreen.LIST_SCREEN:            
         return <ListScreen
+          removeList={this.removeList.bind(this)}
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList} />;
       case AppScreen.ITEM_SCREEN:
