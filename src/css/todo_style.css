@@ -153,6 +153,9 @@ body {
   color: var(--swatch-complement);
   cursor: default;
 }
+.list_item_up_img, .list_item_down_img, .list_item_delete_img {
+  background-color: var(--swatch-accent);
+}
 .disabled {
   background-color: lightgray;
 }
