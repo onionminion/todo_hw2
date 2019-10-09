@@ -14,7 +14,10 @@ class App extends Component {
   state = {
     currentScreen: AppScreen.HOME_SCREEN,
     todoLists: testTodoListData.todoLists,
-    currentList: null
+    currentList: null,
+    taskClicked: false,
+    dueDateClicked: false,
+    statusClicked: false
   }
 
   goHome = () => {
@@ -48,7 +51,72 @@ class App extends Component {
     this.setState({ todoLists: [...this.state.todoLists.filter(list => list !== listToDelete)] });
     this.setState({currentScreen: AppScreen.HOME_SCREEN});
     this.setState({currentList: null});
-    
+  }
+  
+  sortItemsByTask = (listToSort) => {
+    this.setState({taskClicked: !this.state.taskClicked});
+    this.setState({currentList: listToSort});
+    if (this.state.taskClicked) 
+      listToSort.items.sort((item1, item2) => 
+      {if (item1.description < item2.description)
+        return -1;
+      else if (item1.description > item2.description)
+        return 1;
+      else
+        return 0;});
+    else 
+      listToSort.items.sort((item1, item2) => 
+      {if (item1.description < item2.description)
+        return 1;
+      else if (item1.description > item2.description)
+        return -1;
+      else
+        return 0;});
+    this.loadList(listToSort);
+  }
+
+  sortItemsByDueDate = (listToSort) => {
+    this.setState({dueDateClicked: !this.state.dueDateClicked});
+    this.setState({currentList: listToSort});
+    if (this.state.dueDateClicked) 
+      listToSort.items.sort((item1, item2) => 
+      {if (item1.due_date < item2.due_date)
+        return -1;
+      else if (item1.due_date > item2.due_date)
+        return 1;
+      else
+        return 0;});
+    else 
+      listToSort.items.sort((item1, item2) => 
+      {if (item1.due_date < item2.due_date)
+        return 1;
+      else if (item1.due_date > item2.due_date)
+        return -1;
+      else
+        return 0;});
+    this.loadList(listToSort);
+  }
+
+  sortItemsByStatus = (listToSort) => {
+    this.setState({statusClicked: !this.state.statusClicked});
+    this.setState({currentList: listToSort});
+    if (this.state.statusClicked) 
+      listToSort.items.sort((item1, item2) => 
+      {if (item1.completed < item2.completed)
+        return -1;
+      else if (item1.completed > item2.completed)
+        return 1;
+      else
+        return 0;});
+    else 
+      listToSort.items.sort((item1, item2) => 
+      {if (item1.completed < item2.completed)
+        return 1;
+      else if (item1.completed > item2.completed)
+        return -1;
+      else
+        return 0;});
+    this.loadList(listToSort);
   }
 
   render() {
@@ -62,7 +130,10 @@ class App extends Component {
         return <ListScreen
           removeList={this.removeList.bind(this)}
           goHome={this.goHome.bind(this)}
-          todoList={this.state.currentList} />;
+          todoList={this.state.currentList}
+          sortItemsByTask={this.sortItemsByTask.bind(this)} 
+          sortItemsByDueDate={this.sortItemsByDueDate.bind(this)}
+          sortItemsByStatus={this.sortItemsByStatus.bind(this)} />;
       case AppScreen.ITEM_SCREEN:
         return <ItemScreen />;
       default:

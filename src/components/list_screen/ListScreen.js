@@ -48,7 +48,10 @@ export class ListScreen extends Component {
                             id="list_owner_textfield" />
                     </div>
                 </div>
-                <ListItemsTable todoList={this.props.todoList} />
+                <ListItemsTable todoList={this.props.todoList} 
+                    sortItemsByTask={this.props.sortItemsByTask.bind(this)}
+                    sortItemsByDueDate={this.props.sortItemsByDueDate.bind(this)}
+                    sortItemsByStatus={this.props.sortItemsByStatus.bind(this)} />
             </div>
         )
     }

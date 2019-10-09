@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ListItemStatus from './ListItemStatus'
 
 export class ListItemCard extends Component {
     render() {
@@ -13,19 +14,9 @@ export class ListItemCard extends Component {
                 <div className='list_item_card_due_date'>
                     {this.props.listItem.due_date}
                 </div>
-                <div className='list_item_card_completed'>
-                    {this.displayStatus(this.props.listItem.completed)}
-                </div>
+                <ListItemStatus currentItem = {this.props.listItem}/>
             </div>
         )
-    }
-    
-    displayStatus(isCompleted) {
-        if (isCompleted) {
-            return "Completed";
-        }
-        else
-            return "Pending";
     }
 }
 
