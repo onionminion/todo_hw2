@@ -18,7 +18,7 @@ export class ListItemCard extends Component {
                     {this.props.listItem.due_date}
                 </div>
                 <ListItemStatus currentItem = {this.props.listItem}/>
-                <img src={Delete} className='list_item_delete_img'></img>
+                <img src={Delete} className='list_item_delete_img' onClick={this.props.removeItem.bind(this, this.props.listItem)}></img>
                 <img src={Down} className='list_item_down_img'></img>
                 <img src={Up} className='list_item_up_img'></img>
             </div>

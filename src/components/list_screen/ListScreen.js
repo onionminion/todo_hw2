@@ -49,6 +49,7 @@ export class ListScreen extends Component {
                     </div>
                 </div>
                 <ListItemsTable todoList={this.props.todoList} 
+                    removeItem={this.props.removeItem}
                     sortItemsByTask={this.props.sortItemsByTask.bind(this)}
                     sortItemsByDueDate={this.props.sortItemsByDueDate.bind(this)}
                     sortItemsByStatus={this.props.sortItemsByStatus.bind(this)} />

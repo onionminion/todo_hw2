@@ -4,6 +4,7 @@ import HomeScreen from './components/home_screen/HomeScreen'
 import ItemScreen from './components/item_screen/ItemScreen'
 import ListScreen from './components/list_screen/ListScreen'
 import ModalBox from './components/modal_screen/ModalBox'
+import uuid from "uuid"
 
 
 const AppScreen = { 
@@ -18,6 +19,7 @@ class App extends Component {
     currentScreen: AppScreen.HOME_SCREEN,
     todoLists: testTodoListData.todoLists,
     currentList: null,
+    currentListItems: null,
     taskClicked: false,
     dueDateClicked: false,
     statusClicked: false,
@@ -46,12 +48,13 @@ class App extends Component {
   loadList = (todoListToLoad) => {
     this.setState({currentScreen: AppScreen.LIST_SCREEN});
     this.setState({currentList: todoListToLoad});
+    this.setState({currentListItems: todoListToLoad.items})
     console.log("currentList: " + this.state.currentList);
     console.log("currentScreen: " + this.state.currentScreen);
   }
 
   addList = () => {
-    let index = '' + this.state.todoLists.length;
+    let index = uuid.v4();
     const newList = {
       key: index,
       name: 'Unknown',
@@ -61,6 +64,7 @@ class App extends Component {
     this.setState({ todoLists: [...this.state.todoLists, newList] });
     this.setState({currentScreen: AppScreen.LIST_SCREEN});
     this.setState({currentList: newList});
+    this.setState({currentListItems: newList.items});
     console.log("currentList: " + this.state.currentList);
     console.log("currentScreen: " + this.state.currentScreen);
   }
@@ -137,6 +141,12 @@ class App extends Component {
     this.loadList(listToSort);
   }
 
+  removeItem = (itemToDelete) => {
+    this.setState({ currentListItems: [...this.state.currentListItems.filter(item => item !== itemToDelete)] });
+    this.state.currentList.items = this.state.currentListItems;
+    this.loadList(this.state.currentList);
+  }
+
   render() {
     switch(this.state.currentScreen) {
       case AppScreen.HOME_SCREEN:
@@ -148,6 +158,7 @@ class App extends Component {
         return <div><ListScreen
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
+          removeItem={this.removeItem.bind(this)}
           showDialog={this.showDialog.bind(this)}
           sortItemsByTask={this.sortItemsByTask.bind(this)} 
           sortItemsByDueDate={this.sortItemsByDueDate.bind(this)}
