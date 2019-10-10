@@ -57,6 +57,7 @@ body {
 #home_new_list_container {}
 #home_new_list_button {
   font-size: 32pt;
+  background-color: var(--swatch-primary);
 }
 #home_new_list_button:hover {
   box-shadow: 1px 2px;
@@ -294,7 +295,7 @@ font-size: 16pt;
 [data-animation="slideInOutRight"].is_visible .modal_dialog,
 [data-animation="zoomInOut"].is_visible .modal_dialog,
 [data-animation="rotateInOutDown"].is_visible .modal_dialog {
-  transform: none;
+  /* transform: none; */
 }
 
 @keyframes mixInAnimations {

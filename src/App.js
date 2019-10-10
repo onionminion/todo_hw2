@@ -3,11 +3,14 @@ import testTodoListData from './TestTodoListData.json'
 import HomeScreen from './components/home_screen/HomeScreen'
 import ItemScreen from './components/item_screen/ItemScreen'
 import ListScreen from './components/list_screen/ListScreen'
+import ModalBox from './components/modal_screen/ModalBox'
+
 
 const AppScreen = { 
   HOME_SCREEN: "HOME_SCREEN",
   LIST_SCREEN: "LIST_SCREEN",
-  ITEM_SCREEN: "ITEM_SCREEN"
+  ITEM_SCREEN: "ITEM_SCREEN",
+  MODAL_BOX: "MODAL_BOX"
 }
 
 class App extends Component {
@@ -17,7 +20,22 @@ class App extends Component {
     currentList: null,
     taskClicked: false,
     dueDateClicked: false,
-    statusClicked: false
+    statusClicked: false,
+    trashClicked: false
+  }
+  
+  showDialog = () => {
+    if (!this.state.trashClicked) {
+      this.setState({trashClicked: true});  //change trashClicked back to false later
+      this.setState({currentScreen: AppScreen.MODAL_BOX});
+    }
+  }
+
+  hideDialog = () => {
+    if (this.state.trashClicked) {
+      this.setState({trashClicked: false});
+      this.setState({currentScreen: AppScreen.LIST_SCREEN});
+    }
   }
 
   goHome = () => {
@@ -49,8 +67,8 @@ class App extends Component {
 
   removeList = (listToDelete) => {
     this.setState({ todoLists: [...this.state.todoLists.filter(list => list !== listToDelete)] });
-    this.setState({currentScreen: AppScreen.HOME_SCREEN});
-    this.setState({currentList: null});
+    this.goHome();
+    this.setState({trashClicked: false});
   }
   
   sortItemsByTask = (listToSort) => {
@@ -128,14 +146,20 @@ class App extends Component {
         todoLists={this.state.todoLists} />;
       case AppScreen.LIST_SCREEN:            
         return <ListScreen
-          removeList={this.removeList.bind(this)}
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
+          showDialog={this.showDialog.bind(this)}
           sortItemsByTask={this.sortItemsByTask.bind(this)} 
           sortItemsByDueDate={this.sortItemsByDueDate.bind(this)}
           sortItemsByStatus={this.sortItemsByStatus.bind(this)} />;
       case AppScreen.ITEM_SCREEN:
         return <ItemScreen />;
+      case AppScreen.MODAL_BOX:
+        return <ModalBox 
+          trashClicked={this.state.trashClicked}
+          hideDialog={this.hideDialog}
+          todoList={this.state.currentList}
+          removeList={this.removeList}/>
       default:
         return <div>ERROR</div>;
     }
