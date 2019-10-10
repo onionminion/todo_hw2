@@ -10,7 +10,7 @@ const AppScreen = {
   HOME_SCREEN: "HOME_SCREEN",
   LIST_SCREEN: "LIST_SCREEN",
   ITEM_SCREEN: "ITEM_SCREEN",
-  MODAL_BOX: "MODAL_BOX"
+  // MODAL_BOX: "MODAL_BOX"
 }
 
 class App extends Component {
@@ -27,14 +27,14 @@ class App extends Component {
   showDialog = () => {
     if (!this.state.trashClicked) {
       this.setState({trashClicked: true});  //change trashClicked back to false later
-      this.setState({currentScreen: AppScreen.MODAL_BOX});
+      // this.setState({currentScreen: AppScreen.MODAL_BOX});
     }
   }
 
   hideDialog = () => {
     if (this.state.trashClicked) {
       this.setState({trashClicked: false});
-      this.setState({currentScreen: AppScreen.LIST_SCREEN});
+      // this.setState({currentScreen: AppScreen.LIST_SCREEN});
     }
   }
 
@@ -68,7 +68,7 @@ class App extends Component {
   removeList = (listToDelete) => {
     this.setState({ todoLists: [...this.state.todoLists.filter(list => list !== listToDelete)] });
     this.goHome();
-    this.setState({trashClicked: false});
+    this.hideDialog();
   }
   
   sortItemsByTask = (listToSort) => {
@@ -145,21 +145,20 @@ class App extends Component {
         loadList={this.loadList.bind(this)} 
         todoLists={this.state.todoLists} />;
       case AppScreen.LIST_SCREEN:            
-        return <ListScreen
+        return <div><ListScreen
           goHome={this.goHome.bind(this)}
           todoList={this.state.currentList}
           showDialog={this.showDialog.bind(this)}
           sortItemsByTask={this.sortItemsByTask.bind(this)} 
           sortItemsByDueDate={this.sortItemsByDueDate.bind(this)}
-          sortItemsByStatus={this.sortItemsByStatus.bind(this)} />;
-      case AppScreen.ITEM_SCREEN:
-        return <ItemScreen />;
-      case AppScreen.MODAL_BOX:
-        return <ModalBox 
+          sortItemsByStatus={this.sortItemsByStatus.bind(this)} />
+          <ModalBox 
           trashClicked={this.state.trashClicked}
           hideDialog={this.hideDialog}
           todoList={this.state.currentList}
-          removeList={this.removeList}/>
+          removeList={this.removeList}/></div>;
+      case AppScreen.ITEM_SCREEN:
+        return <ItemScreen />;
       default:
         return <div>ERROR</div>;
     }

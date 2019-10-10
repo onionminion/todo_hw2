@@ -295,7 +295,7 @@ font-size: 16pt;
 [data-animation="slideInOutRight"].is_visible .modal_dialog,
 [data-animation="zoomInOut"].is_visible .modal_dialog,
 [data-animation="rotateInOutDown"].is_visible .modal_dialog {
-  /* transform: none; */
+  transform: none;
 }
 
 @keyframes mixInAnimations {

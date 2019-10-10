@@ -4,9 +4,15 @@ const MODAL_CLASS = ['modal'];
 
 export class ModalBox extends Component {
     makeInvisible = () => {
-        MODAL_CLASS.includes('is_visible');
-        MODAL_CLASS.pop();
+        if (MODAL_CLASS.includes('is_visible'))
+            MODAL_CLASS.pop();
         this.props.hideDialog();
+    }
+
+    confirmDelete = () => {
+        this.props.removeList(this.props.todoList);
+        if (MODAL_CLASS.includes('is_visible'))
+            MODAL_CLASS.pop();
     }
 
     render() {
@@ -22,7 +28,7 @@ export class ModalBox extends Component {
                     <section className="dialog_content">
                         <p><strong>Are you sure you want to delete this list?</strong></p>
                     </section>
-                        <button id="dialog_yes_button" onClick={this.props.removeList.bind(this, this.props.todoList)}>Yes</button>
+                        <button id="dialog_yes_button" onClick={this.confirmDelete}>Yes</button>
                         <button id="dialog_no_button" onClick={this.makeInvisible}>No</button>
                     <footer className="dialog_footer">
                         The list will not be retreivable.
