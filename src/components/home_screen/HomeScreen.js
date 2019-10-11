@@ -20,7 +20,7 @@ export class HomeScreen extends Component {
                     </button>
                 </div>
             </div>
-            
+
         )
     }
 }
