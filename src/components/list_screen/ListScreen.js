@@ -57,7 +57,7 @@ export class ListScreen extends Component {
                     sortItemsByTask={this.props.sortItemsByTask}
                     sortItemsByDueDate={this.props.sortItemsByDueDate}
                     sortItemsByStatus={this.props.sortItemsByStatus} />
-                <img src={Add} className='item_button' onClick={this.props.loadNewItem}></img>
+                <img src={Add} className='item_button' onClick={this.props.addNewItem}></img>
             </div>
         )
     }

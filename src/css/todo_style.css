@@ -189,6 +189,7 @@ body {
 .item_form_button {
   background-color: #ededed;
   box-shadow: 1px 1.5px #888888;
+  cursor: pointer;
 }
 
 /* FOR A MODAL DIALOG */

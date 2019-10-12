@@ -199,11 +199,11 @@ class App extends Component {
 		this.setState({currentItem: itemToLoad});
 	}
 
-	loadNewItem = () => {
-		let index = uuid.v4;
+	addNewItem = () => {
+		let index = uuid.v4();
 		const newItem = {
 			key: index,
-			description: "Unknwon",
+			description: "Unknown",
 			due_date: null,
 			assigned_to: "Unknown",
 			completed: false
@@ -237,7 +237,7 @@ class App extends Component {
 						itemsUpdated={this.state.itemsUpdated}
 						showDialog={this.showDialog.bind(this)}
 						goItem={this.goItem.bind(this)}
-						loadNewItem={this.loadNewItem.bind(this)}
+						addNewItem={this.addNewItem.bind(this)}
 						sortItemsByTask={this.sortItemsByTask.bind(this)}
 						sortItemsByDueDate={this.sortItemsByDueDate.bind(this)}
 						sortItemsByStatus={this.sortItemsByStatus.bind(this)} />
@@ -247,7 +247,10 @@ class App extends Component {
 						todoList={this.state.currentList}
 						removeList={this.removeList} /></div>;
 			case AppScreen.ITEM_SCREEN:
-				return <ItemScreen />;
+				return <ItemScreen 
+					loadList={this.loadList.bind(this)}
+					todoList={this.state.currentList}
+					todoItem={this.state.currentItem}/>;
 			default:
 				return <div>ERROR</div>;
 		}
