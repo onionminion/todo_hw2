@@ -19,7 +19,6 @@ class App extends Component {
 		currentScreen: AppScreen.HOME_SCREEN,
 		todoLists: testTodoListData.todoLists,
 		currentList: null,
-		currentListItems: null,
 		taskClicked: false,
 		dueDateClicked: false,
 		statusClicked: false,
@@ -28,15 +27,13 @@ class App extends Component {
 
 	showDialog = () => {
 		if (!this.state.trashClicked) {
-			this.setState({ trashClicked: true });  //change trashClicked back to false later
-			// this.setState({currentScreen: AppScreen.MODAL_BOX});
+			this.setState({ trashClicked: true });
 		}
 	}
 
 	hideDialog = () => {
 		if (this.state.trashClicked) {
 			this.setState({ trashClicked: false });
-			// this.setState({currentScreen: AppScreen.LIST_SCREEN});
 		}
 	}
 
@@ -49,7 +46,6 @@ class App extends Component {
 	loadList = (todoListToLoad) => {
 		this.setState({ currentScreen: AppScreen.LIST_SCREEN });
 		this.setState({ currentList: todoListToLoad });
-		this.setState({ currentListItems: todoListToLoad.items })
 		console.log("currentList: " + this.state.currentList);
 		console.log("currentScreen: " + this.state.currentScreen);
 	}
@@ -65,7 +61,6 @@ class App extends Component {
 		this.setState({ todoLists: [...this.state.todoLists, newList] });
 		this.setState({ currentScreen: AppScreen.LIST_SCREEN });
 		this.setState({ currentList: newList });
-		this.setState({ currentListItems: newList.items });
 		console.log("currentList: " + this.state.currentList);
 		console.log("currentScreen: " + this.state.currentScreen);
 	}
@@ -149,13 +144,13 @@ class App extends Component {
 	}
 
 	removeItem = (itemToDelete) => {
-		let newItems = this.state.currentList.items.filter(item => item !== itemToDelete);
-		this.setState(prev => ({
-			currentList: {
-				...prev.currentList,
-				items: newItems       
-			}
-		}));
+		let newItems = [...this.state.currentList.items.filter(item => item !== itemToDelete)];
+		let index = this.state.todoLists.indexOf(this.state.currentList);
+		this.setState(prev => {
+			let todoLists = Object.assign([], prev.todoLists);  
+			todoLists[index].items = newItems;                                      
+			return { todoLists };                              
+		});                  
 	}
 
 	render() {
