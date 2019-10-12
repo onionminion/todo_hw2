@@ -20,6 +20,7 @@ export class ListItemsTable extends Component {
                         this.props.todoList.items.map((todoItem)=>(
                             <ListItemCard 
                                 removeItem={this.props.removeItem}
+                                moveItemUp={this.props.moveItemUp}
                                 key={todoItem.key}
                                 listItem={todoItem} />
                         ))
