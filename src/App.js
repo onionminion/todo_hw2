@@ -11,7 +11,6 @@ const AppScreen = {
 	HOME_SCREEN: "HOME_SCREEN",
 	LIST_SCREEN: "LIST_SCREEN",
 	ITEM_SCREEN: "ITEM_SCREEN",
-	// MODAL_BOX: "MODAL_BOX"
 }
 
 class App extends Component {
@@ -23,7 +22,7 @@ class App extends Component {
 		dueDateClicked: false,
 		statusClicked: false,
 		trashClicked: false,
-		upClicked: false
+		itemsUpdated: false
 	}
 
 	showDialog = () => {
@@ -160,9 +159,38 @@ class App extends Component {
 		});    
 	}
 
-	moveItemUp = (itemToMove) => {
-		    
+	moveItemUp = (index) => {
+		if (index !== 0) {
+			let listIndex = this.state.todoLists.indexOf(this.state.currentList);
+			let items = this.state.currentList.items;
+			let itemBefore = items[index-1];
+			items[index-1] = items[index];
+			items[index] = itemBefore;
+			this.setState(prev => {
+				let todoLists = Object.assign([], prev.todoLists);  
+				todoLists[listIndex].items = items;                                      
+				return { todoLists };                              
+			});
+			this.setState({itemsUpdated: true});
+		}
 	}
+
+	moveItemDown = (index) => {
+		if (index !== this.state.currentList.items.length-1) {
+			let listIndex = this.state.todoLists.indexOf(this.state.currentList);
+			let items = this.state.currentList.items;
+			let itemAfter = items[index+1];
+			items[index+1] = items[index];
+			items[index] = itemAfter;
+			this.setState(prev => {
+				let todoLists = Object.assign([], prev.todoLists);  
+				todoLists[listIndex].items = items;                                      
+				return { todoLists };                              
+			});
+			this.setState({itemsUpdated: true});
+		}
+	}
+
 
 	render() {
 		switch (this.state.currentScreen) {
@@ -178,6 +206,8 @@ class App extends Component {
 						todoList={this.state.currentList}
 						removeItem={this.removeItem.bind(this)}
 						moveItemUp={this.moveItemUp.bind(this)}
+						moveItemDown={this.moveItemDown.bind(this)}
+						itemsUpdated={this.state.itemsUpdated}
 						showDialog={this.showDialog.bind(this)}
 						sortItemsByTask={this.sortItemsByTask.bind(this)}
 						sortItemsByDueDate={this.sortItemsByDueDate.bind(this)}

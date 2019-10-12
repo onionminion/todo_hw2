@@ -18,7 +18,6 @@ export class ModalBox extends Component {
     render() {
         if (this.props.trashClicked)
             MODAL_CLASS.push('is_visible');
-
         return (
             <div className={MODAL_CLASS.join(' ')} id="modal_yes_no_dialog" data-animation="slideInOutLeft" >
                 <div className="modal_dialog">

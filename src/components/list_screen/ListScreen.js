@@ -51,6 +51,8 @@ export class ListScreen extends Component {
                 <ListItemsTable todoList={this.props.todoList} 
                     removeItem={this.props.removeItem}
                     moveItemUp={this.props.moveItemUp}
+                    moveItemDown={this.props.moveItemDown}
+                    itemsUpdated={this.props.itemsUpdated}
                     sortItemsByTask={this.props.sortItemsByTask}
                     sortItemsByDueDate={this.props.sortItemsByDueDate}
                     sortItemsByStatus={this.props.sortItemsByStatus} />
