@@ -125,12 +125,16 @@ body {
   margin-right: 0.2%;
   margin-top: 0.4%;
 }
+.item_button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 
 /* ITEM SCREEN CONTROLS */
 #item_heading {}
 #item_form_container {
-  display: grid;
 }
 #item_description_prompt {}
 #item_description_textfield {}
@@ -139,14 +143,29 @@ body {
 #item_due_date_prompt {}
 #item_due_date_picker {}
 #item_completed_prompt {}
-#item_completed_checkbox {}
-#item_form_submit_button {}
-#item_form_cancel_button {}
+#item_completed_checkbox {
+  margin-left: 6.2px;
+}
+#item_form_submit_button {
+  float: left;
+}
+#item_form_cancel_button {
+  margin-left: 10px;
+}
 
 /* ITEM SCREEN CLASSES */
+.item_text_toolbar {
+}
 .item_prompt {
-  grid-column: 1 / 4;
+    display: inline-block;
+    width: 29%;
+    padding-bottom: 30px;
+    text-align: left;
 }
 .item_input {
-  grid-column: 2 / 4;
+    float: right;
+    width: 70%;
+}
+.item_form_button {
+    border-radius: 7px;
 }

@@ -18,6 +18,7 @@ class App extends Component {
 		currentScreen: AppScreen.HOME_SCREEN,
 		todoLists: testTodoListData.todoLists,
 		currentList: null,
+		currentItem: null,
 		taskClicked: false,
 		dueDateClicked: false,
 		statusClicked: false,
@@ -73,7 +74,8 @@ class App extends Component {
 
 	removeList = (listToDelete) => {
 		this.setState({ todoLists: [...this.state.todoLists.filter(list => list !== listToDelete)] });
-		this.goHome();
+		this.setState({ currentScreen: AppScreen.HOME_SCREEN });
+		this.setState({ currentList: null });
 		this.hideDialog();
 	}
 
@@ -188,9 +190,34 @@ class App extends Component {
 				return { todoLists };                              
 			});
 			this.setState({itemsUpdated: true});
+
 		}
 	}
 
+	goItem = (itemToLoad) => {
+		this.setState({currentScreen: AppScreen.ITEM_SCREEN});
+		this.setState({currentItem: itemToLoad});
+	}
+
+	loadNewItem = () => {
+		let index = uuid.v4;
+		const newItem = {
+			key: index,
+			description: "Unknwon",
+			due_date: null,
+			assigned_to: "Unknown",
+			completed: false
+		};
+		let listIndex = this.state.todoLists.indexOf(this.state.currentList);
+		let items = this.state.currentList.items;
+		items.push(newItem);
+		this.setState(prev => {
+			let todoLists = Object.assign([], prev.todoLists);  
+			todoLists[listIndex].items = items;                                      
+			return { todoLists };                              
+		});
+		this.goItem(newItem);
+	}
 
 	render() {
 		switch (this.state.currentScreen) {
@@ -209,6 +236,8 @@ class App extends Component {
 						moveItemDown={this.moveItemDown.bind(this)}
 						itemsUpdated={this.state.itemsUpdated}
 						showDialog={this.showDialog.bind(this)}
+						goItem={this.goItem.bind(this)}
+						loadNewItem={this.loadNewItem.bind(this)}
 						sortItemsByTask={this.sortItemsByTask.bind(this)}
 						sortItemsByDueDate={this.sortItemsByDueDate.bind(this)}
 						sortItemsByStatus={this.sortItemsByStatus.bind(this)} />

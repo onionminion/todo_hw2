@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ListHeading from './ListHeading'
 import ListItemsTable from './ListItemsTable'
 import ListTrash from './ListTrash'
+import Add from './icons/Add.png'
 import PropTypes from 'prop-types';
 
 export class ListScreen extends Component {
@@ -56,6 +57,7 @@ export class ListScreen extends Component {
                     sortItemsByTask={this.props.sortItemsByTask}
                     sortItemsByDueDate={this.props.sortItemsByDueDate}
                     sortItemsByStatus={this.props.sortItemsByStatus} />
+                <img src={Add} className='item_button' onClick={this.props.loadNewItem}></img>
             </div>
         )
     }
