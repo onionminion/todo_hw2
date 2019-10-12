@@ -27,8 +27,19 @@ export class ItemScreen extends Component {
         this.props.todoItem.completed = completed;
     }
     cancelAdding = () => {
+        if (this.props.newItemClicked) {
+            this.props.loadList(this.props.todoList);
+            this.props.todoList.items.pop();
+            this.props.markNotNew();
+        }
+        else {
+            this.props.loadList(this.props.todoList);
+        }
+    }
+
+    submitAdding = () => {
+        this.props.markNotNew();
         this.props.loadList(this.props.todoList);
-        this.props.todoList.items.pop();
     }
     render() {
         return (
@@ -70,7 +81,7 @@ export class ItemScreen extends Component {
                             onChange={(event)=>this.setItemCompleted(event.target.value)}
                             id="item_completed_checkbox" />
                     </div>           
-                    <span id="item_form_submit_button" className="item_form_button" onClick={this.props.loadList.bind(this, this.props.todoList)}>Submit</span>
+                    <span id="item_form_submit_button" className="item_form_button" onClick={this.submitAdding}>Submit</span>
                     <span id="item_form_cancel_button" className="item_form_button" onClick={this.cancelAdding}>Cancel</span>
                 </div>
             </div>

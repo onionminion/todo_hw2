@@ -23,7 +23,8 @@ class App extends Component {
 		dueDateClicked: false,
 		statusClicked: false,
 		trashClicked: false,
-		itemsUpdated: false
+		itemsUpdated: false,
+		newItemClicked: false
 	}
 
 	showDialog = () => {
@@ -216,7 +217,12 @@ class App extends Component {
 			todoLists[listIndex].items = items;                                      
 			return { todoLists };                              
 		});
+		this.setState({newItemClicked: true});
 		this.goItem(newItem);
+	}
+
+	markNotNew = () => {
+		this.setState({newItemClicked: false});
 	}
 
 	render() {
@@ -248,8 +254,10 @@ class App extends Component {
 						removeList={this.removeList} /></div>;
 			case AppScreen.ITEM_SCREEN:
 				return <ItemScreen 
+					markNotNew={this.markNotNew.bind(this)}
 					loadList={this.loadList.bind(this)}
 					todoList={this.state.currentList}
+					newItemClicked={this.state.newItemClicked}
 					todoItem={this.state.currentItem}/>;
 			default:
 				return <div>ERROR</div>;

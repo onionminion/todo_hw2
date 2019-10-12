@@ -50,6 +50,7 @@ export class ListScreen extends Component {
                     </div>
                 </div>
                 <ListItemsTable todoList={this.props.todoList} 
+                    goItem={this.props.goItem}
                     removeItem={this.props.removeItem}
                     moveItemUp={this.props.moveItemUp}
                     moveItemDown={this.props.moveItemDown}

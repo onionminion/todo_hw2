@@ -19,6 +19,7 @@ export class ListItemsTable extends Component {
                     {
                         this.props.todoList.items.map((todoItem)=>(
                             <ListItemCard 
+                                goItem={this.props.goItem}
                                 removeItem={this.props.removeItem}
                                 moveItemUp={this.props.moveItemUp}
                                 moveItemDown={this.props.moveItemDown}
