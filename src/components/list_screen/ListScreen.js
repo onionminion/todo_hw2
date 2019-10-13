@@ -14,8 +14,15 @@ export class ListScreen extends Component {
         else
             return "";
     }
-    setListName(name) {
-        this.props.todoList.name = name;
+    setListName(initName) {
+        let oldName = this.props.todoList.name;
+        let trimmedName = initName.trim();
+        if (trimmedName === "") {
+            this.props.todoList.name = oldName;
+            console.log("List name cannot be empty. Try again");
+        }
+        else 
+            this.props.todoList.name = initName;        
     }
     getListOwner() {
         if (this.props.todoList) {

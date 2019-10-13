@@ -76,9 +76,9 @@ export class ItemScreen extends Component {
                     <div id="item_completed_container" className="item_text_toolbar"> 
                         <span id="item_completed_prompt" className="item_prompt">Completed:</span>
                         <input 
-                            defaultValue={this.getItemCompleted()} 
+                            defaultChecked={this.getItemCompleted()} 
                             type="checkbox" 
-                            onChange={(event)=>this.setItemCompleted(event.target.value)}
+                            onChange={(event)=>this.setItemCompleted(event.target.checked)}
                             id="item_completed_checkbox" />
                     </div>           
                     <span id="item_form_submit_button" className="item_form_button" onClick={this.submitAdding}>Submit</span>
