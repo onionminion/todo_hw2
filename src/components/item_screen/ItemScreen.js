@@ -42,7 +42,7 @@ export class ItemScreen extends Component {
                             onChange={(event)=>this.props.setItemCompleted(event.target.checked)}
                             id="item_completed_checkbox" />
                     </div>           
-                    <span id="item_form_submit_button" className="item_form_button" onClick={this.props.processEditItem}>Submit</span>
+                    <span id="item_form_submit_button" className="item_form_button" onClick={this.props.processEditItem.bind(this.props.todoItem)}>Submit</span>
                     <span id="item_form_cancel_button" className="item_form_button" onClick={this.props.cancelAdding}>Cancel</span>
                 </div>
             </div>

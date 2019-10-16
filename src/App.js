@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import testTodoListData from './TestTodoListData.json'
 import HomeScreen from './components/home_screen/HomeScreen'
 import ItemScreen from './components/item_screen/ItemScreen'
+import AddScreen from './components/item_screen/AddScreen'
 import ListScreen from './components/list_screen/ListScreen'
 import ModalBox from './components/modal_screen/ModalBox'
 import jsTPS from './jsTPS/jsTPS'
@@ -19,12 +20,14 @@ const AppScreen = {
 	HOME_SCREEN: "HOME_SCREEN",
 	LIST_SCREEN: "LIST_SCREEN",
 	ITEM_SCREEN: "ITEM_SCREEN",
+	ADD_SCREEN: "ADD_SCREEN"
 }
 
 class App extends Component {
 	tps = new jsTPS();
 	moveUpT = new MoveUp_Transaction();
 	oldItem = null;
+	newItem = null;
 	state = {
 		currentScreen: AppScreen.HOME_SCREEN,
 		todoLists: testTodoListData.todoLists,
@@ -192,14 +195,16 @@ class App extends Component {
 		this.loadList(listToSort);
 	}
 
-	updateTodoList = (index, itemToDelete) => {
+	updateTodoList = (itemIndex, itemToDelete) => {
 		let newItems = [...this.state.currentList.items];
-		newItems.splice(index, 0, itemToDelete);
+		newItems.splice(itemIndex, 0, itemToDelete);
+		let listIndex = this.state.todoLists.indexOf(this.state.currentList);
 		this.setState(prev => {
 			let todoLists = Object.assign([], prev.todoLists);  
-			todoLists[index].items = newItems;                                      
+			todoLists[listIndex].items = newItems;                                      
 			return { todoLists };                              
 		});
+		this.loadList(this.state.currentList);
 	}
 
 	removeItem = (itemToDelete) => {
@@ -297,46 +302,18 @@ class App extends Component {
 
 	addNewItem = () => {
 		let index = uuid.v4();
-		const newItem = {
+		this.newItem = {
 			key: index,
 			description: "Unknown",
 			due_date: null,
 			assigned_to: "Unknown",
-			completed: false,
-			isNew: true
+			completed: false
 		};
-		this.goItem(newItem);
+		this.setState({currentScreen: AppScreen.ADD_SCREEN});
+		this.setState({currentItem: this.newItem});
 	}
 
-	cancelAdding = (itemSelected) => {
-		if ('isNew' in itemSelected && itemSelected.isNew) {
-			this.loadList(this.state.currentList);
-			let list = this.state.currentList;
-			list.items.pop();
-			this.setState({currentList: list});
-			itemSelected.isNew = false;
-			this.setState({currentItem: itemSelected});
-		}
-		else 
-			this.cancelEditing();
-	}
-	
-	editItem = (itemSelected) => {
-		if ('isNew' in itemSelected) {
-			itemSelected.isNew = false;
-		}
-		this.oldItem = {
-			key: itemSelected.key,
-			description: itemSelected.description,
-			due_date: itemSelected.due_date,
-			assigned_to: itemSelected.assigned_to,
-			completed: itemSelected.completed,
-			isNew: false
-		}
-		this.goItem(itemSelected);
-	}
-
-    submitAdding = (itemToAdd) => {
+	submitAdding = (itemToAdd) => {
 		let listIndex = this.state.todoLists.indexOf(this.state.currentList);
 		let items = this.state.currentList.items;
 		items.push(itemToAdd);
@@ -345,16 +322,22 @@ class App extends Component {
 			todoLists[listIndex].items = items;                                      
 			return { todoLists };                              
 		});
-		this.setState({currentItem: itemToAdd});
 		this.loadList(this.state.currentList);
 	}
 
-	submitEditing = () => {
+	cancelAdding = () => {
 		this.loadList(this.state.currentList);
 	}
-
-	cancelEditing = () => {
-        this.loadList(this.state.currentList);
+	
+	editItem = (itemSelected) => {
+		this.oldItem = {
+			key: itemSelected.key,
+			description: itemSelected.description,
+			due_date: itemSelected.due_date,
+			assigned_to: itemSelected.assigned_to,
+			completed: itemSelected.completed,
+		}
+		this.goItem(itemSelected);
 	}
 
 	setCurrentItem = (item, itemIndex) => {
@@ -367,17 +350,33 @@ class App extends Component {
 			todoLists[listIndex].items = items;                                     
 			return { todoLists };                              
 		});
+		this.loadList(this.state.currentList);
+	}
+
+	removeItemOfKey = (key) => {
+		let items = [];
+		for (let i = 0; i < this.state.currentList.items.length; i++) {
+			if (this.state.currentList.items[i].key !== key)
+				items.push(this.state.currentList.items[i]);
+		}
+		let index = this.state.todoLists.indexOf(this.state.currentList);
+		this.setState(prev => {
+			let todoLists = Object.assign([], prev.todoLists);  
+			todoLists[index].items = items;                                      
+			return { todoLists };                              
+		}); 
 	}
 	
 	processEditItem = () => {
-		if ('isNew' in this.state.currentItem && this.state.currentItem.isNew)
-			this.tps.addTransaction(new AddItem_Transaction(this.submitAdding, this.cancelAdding, this.state.currentItem));
-		else {
-			let items = [...this.state.currentList.items];
-			let itemIndex = items.indexOf(this.state.currentItem);
-			this.tps.addTransaction(new EditItem_Transaction(itemIndex, this.state.currentItem, this.oldItem, this.submitEditing, this.setCurrentItem, this.cancelEditing));
-		}
+		let items = [...this.state.currentList.items];
+		let itemIndex = items.indexOf(this.state.currentItem);
+		this.tps.addTransaction(new EditItem_Transaction(itemIndex, this.state.currentItem, this.oldItem, this.submitEditing, this.setCurrentItem));
 	}
+
+	processAddItem = () => {
+		this.tps.addTransaction(new AddItem_Transaction(this.submitAdding, this.removeItemOfKey, this.newItem));
+	}
+
 	executeUndo = () => {
 		this.tps.undoTransaction();
 		console.log("undo");
@@ -421,7 +420,8 @@ class App extends Component {
 						trashClicked={this.state.trashClicked}
 						hideDialog={this.hideDialog}
 						todoList={this.state.currentList}
-						removeList={this.removeList} /></div>;
+						removeList={this.removeList} />
+					</div>;
 			case AppScreen.ITEM_SCREEN:
 				return <ItemScreen
 					cancelAdding={this.cancelAdding.bind(this)}
@@ -435,6 +435,18 @@ class App extends Component {
 					getItemDueDate={this.getItemDueDate.bind(this)} 
 					setItemDueDate={this.setItemDueDate.bind(this)}
 					todoItem={this.state.currentItem}/>;
+			case AppScreen.ADD_SCREEN:
+				return <AddScreen
+					getItemDescription={this.getItemDescription.bind(this)} 
+					setItemDescription={this.setItemDescription.bind(this)}
+					getItemAssignedTo={this.getItemAssignedTo.bind(this)} 
+					setItemAssignedTo={this.setItemAssignedTo.bind(this)}
+					getItemCompleted={this.getItemCompleted.bind(this)} 
+					setItemCompleted={this.setItemCompleted.bind(this)}
+					getItemDueDate={this.getItemDueDate.bind(this)} 
+					setItemDueDate={this.setItemDueDate.bind(this)}
+					cancelAdding={this.cancelAdding.bind(this)}
+					processAddItem={this.processAddItem.bind(this)}/>;
 			default:
 				return <div>ERROR</div>;
 		}

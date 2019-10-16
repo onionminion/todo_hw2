@@ -11,25 +11,33 @@ import jsTPS_Transaction from "./jsTPS_Transaction.js"
  * @version 2.0
  */
 class AddItem_Transaction extends jsTPS_Transaction {
-    constructor(submitItem, cancelItem, item) {
+    constructor(addItem, removeItemOfKey, item) {
         super();
-        this.submitItem = submitItem;
-        this.cancelItem = cancelItem;
-        this.item = item;
+        this.addItem = addItem;
+        this.removeItemOfKey = removeItemOfKey;
+        this.newItem = item;
+        this.oldItem = {
+            key: this.newItem.key,
+            description: this.newItem.description,
+            due_date: this.newItem.due_date,
+            assigned_to: this.newItem.assigned_to,
+            completed: this.newItem.completed
+        }
     }
 
     /**
      * This transaction simply adds the value to the num.
      */
     doTransaction() {
-        this.submitItem(this.item);
+        this.addItem(this.newItem);
     }
 
     /**
      * As the reverse of do, this method substracts from num.
      */
     undoTransaction() {
-        this.cancelItem(this.item);
+        this.removeItemOfKey(this.oldItem.key);
+        this.newItem = this.oldItem;
     }
 
     /**
