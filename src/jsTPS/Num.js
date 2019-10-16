@@ -40,3 +40,5 @@ class Num {
         this.num = this.num | mask;
     }
 }
+
+export default Num

@@ -25,23 +25,23 @@ export class ListItemCard extends Component {
     }
 
     handleDelete = (event) => {
-        this.props.removeItem(this.props.listItem);
+        this.props.processRemoveItem(this.props.listItem);
         event.stopPropagation();
     }
 
     handleMoveUp = (event) => {
-        this.props.moveItemUp(this.props.index);
+        this.props.processMoveItemUp(this.props.index);
         event.stopPropagation();
     }
 
     handleMoveDown = (event) => {
-        this.props.moveItemDown(this.props.index);
+        this.props.processMoveItemDown(this.props.index);
         event.stopPropagation();
     }
 
     render() {
         return (
-            <div className='list_item_card' onClick={this.props.goItem.bind(this, this.props.listItem)}>
+            <div className='list_item_card' onClick={this.props.editItem.bind(this, this.props.listItem)}>
                 <div className='list_item_card_description'>
                     {this.props.listItem.description}
                 </div>

@@ -10,49 +10,37 @@ import jsTPS_Transaction from "./jsTPS_Transaction.js"
  * @author THE McKilla Gorilla (accept no imposters)
  * @version 2.0
  */
-class AddToNum_Transaction extends jsTPS_Transaction {
-    // THIS IS THE OBJECT IT WILL MANIPULATE
-
-    /**
-     * Constructor for this transaction, it initializes this
-     * object with all the data needed to both do and undo
-     * the transaction.
-     * 
-     * @param initNum
-     * @param initAmountToAdd 
-     */
-    constructor(initNum, initAmountToAdd) {
+class Removal_Transaction extends jsTPS_Transaction {
+    constructor(itemIndex, itemToDelete, removeItem, updateTodoList) {
         // KEEP THESE FOR LATER
-        this.num = initNum;
-        this.amountToAdd = initAmountToAdd;
+        super();
+        this.itemIndex = itemIndex;
+        this.itemToDelete = itemToDelete;
+        this.removeItem = removeItem;
+        this.updateTodoList = updateTodoList;
     }
 
     /**
      * This transaction simply adds the value to the num.
      */
     doTransaction() {
-        let oldNum = this.num.getNum();
-        let newNum = oldNum + this.amountToAdd;
-        this.num.setNum(newNum);
+        this.removeItem(this.itemToDelete);
     }
 
     /**
      * As the reverse of do, this method substracts from num.
      */
     undoTransaction() {
-        let oldNum = this.num.getNum();
-        let newNum = oldNum - this.amountToAdd;
-        this.num.setNum(newNum);
-    }
-
+        this.updateTodoList(this.itemIndex, this.itemToDelete);
+    }   
     /**
      * Provides a textual summary of this transaction.
      * 
      * @return A string storing a textual summary of this object.
      */
     toString() {
-        return "Add " + this.amountToAdd;
+        return "Add ";
     }
 }
 
-export default AddToNum_Transaction
+export default Removal_Transaction

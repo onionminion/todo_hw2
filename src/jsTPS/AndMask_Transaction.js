@@ -1,4 +1,4 @@
-import jsTPS_Transaction from './jsTPS_Transaction'
+import jsTPS_Transaction from './jsTPS_Transaction.js'
 /**
  *
  * @author McKillaGorilla
@@ -44,3 +44,5 @@ class AndMask_Transaction extends jsTPS_Transaction {
         return "And Mask " + this.mask;
     }
 }
+
+export default AndMask_Transaction

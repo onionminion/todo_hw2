@@ -30,7 +30,8 @@ body {
 #todo_home, #todo_list, #todo_item {
   background-color: var(--swatch-primary);
 }
-#todo_list {}
+#todo_list {
+}
 #todo_item {}
 
 /* HOME SCREEN CONTROLS */

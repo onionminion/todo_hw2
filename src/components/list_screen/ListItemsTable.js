@@ -19,10 +19,11 @@ export class ListItemsTable extends Component {
                     {
                         this.props.todoList.items.map((todoItem)=>(
                             <ListItemCard 
-                                goItem={this.props.goItem}
+                                editItem={this.props.editItem}
                                 removeItem={this.props.removeItem}
-                                moveItemUp={this.props.moveItemUp}
-                                moveItemDown={this.props.moveItemDown}
+                                processMoveItemUp={this.props.processMoveItemUp}
+                                processMoveItemDown={this.props.processMoveItemDown}
+                                processRemoveItem={this.props.processRemoveItem}
                                 itemsUpdated={this.props.itemsUpdated}
                                 key={todoItem.key}
                                 index={this.props.todoList.items.indexOf(todoItem)}

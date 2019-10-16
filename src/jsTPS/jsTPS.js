@@ -1,6 +1,4 @@
-import jsTPS_Transaction from "./jsTPS_Transaction"
-
-class jsTPS extends jsTPS_Transaction {
+class jsTPS {
     constructor() {
         // THE TRANSACTION STACK
         this.transactions = [];
@@ -22,7 +20,7 @@ class jsTPS extends jsTPS_Transaction {
      * process of executing, false otherwise.
      */
     isPerformingDo() {
-        return performingDo;
+        return this.performingDo;
     }
     
     /**
@@ -33,7 +31,7 @@ class jsTPS extends jsTPS_Transaction {
      * process of executing, false otherwise.
      */
     isPerformingUndo() {
-        return performingUndo;
+        return this.performingUndo;
     }
     
     /**
@@ -50,7 +48,7 @@ class jsTPS extends jsTPS_Transaction {
         // ARE THERE OLD UNDONE TRANSACTIONS ON THE STACK THAT FIRST
         // NEED TO BE CLEARED OUT, i.e. ARE WE BRANCHING?
         if ((this.mostRecentTransaction < 0)|| (this.mostRecentTransaction < (this.transactions.length-1))) {
-            for (let i = this.transactions.length-1; i > mostRecentTransaction; i--) {
+            for (let i = this.transactions.length-1; i > this.mostRecentTransaction; i--) {
                 this.transactions.pop();
             }
         }
@@ -86,7 +84,7 @@ class jsTPS extends jsTPS_Transaction {
      */
     peekUndo() {
         if (this.hasTransactionToUndo()) {
-            return this.transactions[mostRecentTransaction];
+            return this.transactions[this.mostRecentTransaction];
         }
         else
             return null;
@@ -114,7 +112,7 @@ class jsTPS extends jsTPS_Transaction {
     undoTransaction() {
         if (this.hasTransactionToUndo()) {
             this.performingUndo = true;
-            let transaction = this.transactions[mostRecentTransaction];
+            let transaction = this.transactions[this.mostRecentTransaction];
             transaction.undoTransaction();
             this.mostRecentTransaction--;
             this.performingUndo = false;

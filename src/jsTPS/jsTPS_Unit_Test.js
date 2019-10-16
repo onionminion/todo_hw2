@@ -1,7 +1,7 @@
-import AddToNum_Transaction from "./AddToNum_Transaction"
-import AndMask_Transaction from "./AndMask_Transaction"
-import Num from "./Num"
-import jsTPS from "./jsTPS"
+import AddToNum_Transaction from "./AddToNum_Transaction.js"
+import AndMask_Transaction from "./AndMask_Transaction.js"
+import Num from "./Num.js"
+import jsTPS from "./jsTPS.js"
 
 /**
  * jTPS_Unit_Tests.java
@@ -12,12 +12,20 @@ import jsTPS from "./jsTPS"
  * @version 2.0
  */
 class jsTPS_Unit_Test {
+    constructor() {
+        this.testAdd();
+        this.testAndMask();
+        this.testClear();
+        this.testRedo();
+        this.testUndo();
+    }
     /**
      * This JUnit test is for testing the adding of transactions.
      */
     testAdd() {
         // WE'LL JUST USE A SIMPLE NUM FOR TESTING
-        let tps = new jTPS();
+        console.log("Asdfasdfasdf");
+        let tps = new jsTPS();
         let num = new Num();
         var assert = require('assert');
         assert.equal(0, num.getNum());
@@ -49,7 +57,7 @@ class jsTPS_Unit_Test {
      */
     testAndMask() {
         // WE'LL JUST USE A SIMPLE NUM FOR TESTING
-        let tps = new jTPS();
+        let tps = new jsTPS();
         let num = new Num();
         var assert = require('assert');
         assert.equal(0, num.getNum());
@@ -67,17 +75,13 @@ class jsTPS_Unit_Test {
         assert.equal(1, tps.getUndoSize());
 
     }
-    
-    public void testOrMask() {
-        
-    }
 
     /**
      * This JUnit test is for testing the undoing of transactions.
      */
     testUndo() {
         // WE'LL JUST USE A SIMPLE NUM FOR TESTING
-        let tps = new jTPS();
+        let tps = new jsTPS();
         let num = new Num();
         var assert = require('assert');
         assert.equal(num.getNum(), 0);
@@ -138,7 +142,7 @@ class jsTPS_Unit_Test {
      */
     testRedo() {
         // WE'LL JUST USE A SIMPLE NUM FOR TESTING
-        let tps = new jTPS();
+        let tps = new jsTPS();
         let num = new Num();
         var assert = require('assert');
         assert.equal(num.getNum(), 0);
@@ -226,7 +230,7 @@ class jsTPS_Unit_Test {
      */
     testClear() {
         // WE'LL JUST USE A SIMPLE NUM FOR TESTING
-        let tps = new jTPS();
+        let tps = new jsTPS();
         let num = new Num();
         var assert = require('assert');
         assert.equal(num.getNum(), 0);
@@ -273,3 +277,5 @@ class jsTPS_Unit_Test {
         assert.equal(3, tps.getUndoSize());
     }
 }
+
+export default jsTPS_Unit_Test
