@@ -8,17 +8,18 @@ import PropTypes from 'prop-types';
 export class ListScreen extends Component {
     detectKeys = (event) => {
         if (event.ctrlKey && event.key === "z") {
-            // event.preventDefault();
+            event.preventDefault();
             this.props.executeUndo();
         }
         else if (event.ctrlKey && event.key === "y") {
-            // event.preventDefault();
+            event.preventDefault();
             this.props.executeRedo();
         }
     }
     render() {
+        document.onkeyup = this.detectKeys;
         return (
-            <div id="todo_list" onKeyUp={this.detectKeys} tabIndex="0">
+            <div id="todo_list" >
                 <ListHeading goHome={this.props.goHome} />
                 <ListTrash showDialog={this.props.showDialog}/>
                 <div id="list_details_container">
@@ -27,7 +28,7 @@ export class ListScreen extends Component {
                         <input 
                             defaultValue={this.props.getListName()} 
                             type="text" 
-                            onChange={(event)=>this.props.processSetListName(event.target.value)}
+                            onBlur={(event)=>this.props.processSetListName(event.target.value)}
                             id="list_name_textfield" />
                     </div>
                     <div id="list_details_owner_container" className="text_toolbar">
@@ -35,7 +36,7 @@ export class ListScreen extends Component {
                         <input 
                             defaultValue={this.props.getListOwner()}
                             type="text" 
-                            onChange={(event)=>this.props.processSetListOwner(event.target.value)}
+                            onBlur={(event)=>this.props.processSetListOwner(event.target.value)}
                             id="list_owner_textfield" />
                     </div>
                 </div>
