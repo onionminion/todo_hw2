@@ -8,11 +8,11 @@ import PropTypes from 'prop-types';
 export class ListScreen extends Component {
     detectKeys = (event) => {
         if (event.ctrlKey && event.key === "z") {
-            event.preventDefault();
+            // event.preventDefault();
             this.props.executeUndo();
         }
         else if (event.ctrlKey && event.key === "y") {
-            event.preventDefault();
+            // event.preventDefault();
             this.props.executeRedo();
         }
     }
