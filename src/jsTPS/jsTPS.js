@@ -126,7 +126,8 @@ class jsTPS {
      */
     clearAllTransactions() {
         // REMOVE ALL THE TRANSACTIONS
-        for (let i = 0; i < this.transactions.length; i++) {
+        var iteration=this.transactions.length;
+        for (let i = 0; i < iteration; i++) {
             this.transactions.pop();
         }
         

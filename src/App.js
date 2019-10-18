@@ -38,6 +38,8 @@ class App extends Component {
 		statusClicked: false,
 		trashClicked: false,
 		itemsUpdated: false,
+		listName: null,
+		listOwner: null
 	}
 
 	showDialog = () => {
@@ -68,6 +70,8 @@ class App extends Component {
 	loadList = (todoListToLoad) => {
 		this.setState({ currentScreen: AppScreen.LIST_SCREEN });
 		this.setState({ currentList: todoListToLoad });
+		this.setState({ listName: todoListToLoad.name});
+		this.setState({listOwner: todoListToLoad.owner});
 		console.log("currentList: " + this.state.currentList);
 		console.log("currentScreen: " + this.state.currentScreen);
 	}
@@ -102,7 +106,8 @@ class App extends Component {
     setListName = (initName) => {
         const list = this.state.currentList;
 		list.name = initName;
-		this.setState({currentList: list});     
+		this.setState({currentList: list});  
+		this.setState({listName: initName}); 
 	}
 
     getListOwner = () => {
@@ -113,6 +118,7 @@ class App extends Component {
 		const list = this.state.currentList;
 		list.owner = owner;
 		this.setState({currentList: list});
+		this.setState({listOwner: owner}); 
 	}
 	
 	processSetListName(name) {
@@ -398,9 +404,9 @@ class App extends Component {
 				return <div>
 					<ListScreen
 						processSetListName={this.processSetListName.bind(this)}
-						getListName={this.getListName.bind(this)}
+						name={this.state.listName}
+						owner={this.state.listOwner}
 						processSetListOwner={this.processSetListOwner.bind(this)}
-						getListOwner={this.getListOwner.bind(this)}
 						goHome={this.goHome.bind(this)}
 						todoList={this.state.currentList}
 						removeItem={this.removeItem.bind(this)}

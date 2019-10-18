@@ -16,6 +16,14 @@ export class ListScreen extends Component {
             this.props.executeRedo();
         }
     }
+
+    changeName = (event) => {
+        this.props.processSetListName(event.target.value);
+    }
+    changeOwner = (event) => {
+        this.props.processSetListOwner(event.target.value);
+    }
+
     render() {
         document.onkeyup = this.detectKeys;
         return (
@@ -26,17 +34,17 @@ export class ListScreen extends Component {
                     <div id="list_details_name_container" className="text_toolbar">
                         <span id="list_name_prompt">Name:</span>
                         <input 
-                            defaultValue={this.props.getListName()} 
                             type="text" 
-                            onBlur={(event)=>this.props.processSetListName(event.target.value)}
+                            value={this.props.name} 
+                            onChange={(event) => this.changeName(event)}
                             id="list_name_textfield" />
                     </div>
                     <div id="list_details_owner_container" className="text_toolbar">
                         <span id="list_owner_prompt">Owner:</span>
                         <input 
-                            defaultValue={this.props.getListOwner()}
+                            value={this.props.owner}
                             type="text" 
-                            onBlur={(event)=>this.props.processSetListOwner(event.target.value)}
+                            onChange={(event) => this.changeOwner(event)}
                             id="list_owner_textfield" />
                     </div>
                 </div>
