@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 export class ItemScreen extends Component {
     render() {
+        document.onkeyup = null;
         return (
             <div id="todo_item">
                 <div id="item_heading">Item<br /><br /></div>

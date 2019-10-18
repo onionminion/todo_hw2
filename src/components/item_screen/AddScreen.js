@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 export class AddScreen extends Component {
     render() {
+        document.onkeyup = null;
         return (
             <div id="todo_item">
                 <div id="item_heading">Item<br /><br /></div>
